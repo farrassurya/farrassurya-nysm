@@ -28,6 +28,15 @@ class QuestionController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
+        		$request->validate([
+		    'nama'  => 'required|max:10',
+		    'email' => ['required','email'],
+		    'pertanyaan' => 'required|max:300|min:8',
+		],[
+            'nama.required'=>'Nama Tidak Boleh Kosong',
+            'email.email' => 'Email Tidak Valid'
+        ]);
+
 
         $data['nama']       = $request->nama;
         $data['email']      = $request->email;
