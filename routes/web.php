@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\MahasiswaController;
 
 Route::get('/', function () {
@@ -17,17 +18,17 @@ Route::get('/pcr', function () {
 // //     return 'Halo Mahasiswa';
 // // })->name('mahasiswa.show');
 
-// Route::get('/nama/{param1}', function ($param1) {
-//     return 'Nama saya: '.$param1;
-// });
+Route::get('/nama/{param1}', function ($param1) {
+    return 'Nama saya: '.$param1;
+});
 
-// Route::get('/nim/{param1?}', function ($param1 = '') {
-//     return 'NIM saya: '.$param1;
-// });
+Route::get('/nim/{param1?}', function ($param1 = '') {
+    return 'NIM saya: '.$param1;
+});
 
-// Route::get('/mahasiswa', function () {
-//     return 'Halo Mahasiswa';
-// });
+Route::get('/mahasiswa', function () {
+    return 'Halo Mahasiswa';
+});
 
 Route::get('/mahasiswa/{param1cls?}', [MahasiswaController::class, 'show'])->name('mahasiswa.show');
 
@@ -38,3 +39,6 @@ Route::get('/about', function () {
 Route::get('/home', [HomeController::class, 'index']);
 
 Route::get('/dataPegawai', [PegawaiController::class, 'index']);
+
+Route::post('question/store', [QuestionController::class, 'store'])
+		->name('question.store');
