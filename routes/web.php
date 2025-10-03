@@ -17,17 +17,17 @@ Route::get('/pcr', function () {
 // //     return 'Halo Mahasiswa';
 // // })->name('mahasiswa.show');
 
-Route::get('/nama/{param1}', function ($param1) {
-    return 'Nama saya: '.$param1;
-});
+// Route::get('/nama/{param1}', function ($param1) {
+//     return 'Nama saya: '.$param1;
+// });
 
-Route::get('/nim/{param1?}', function ($param1 = '') {
-    return 'NIM saya: '.$param1;
-});
+// Route::get('/nim/{param1?}', function ($param1 = '') {
+//     return 'NIM saya: '.$param1;
+// });
 
-Route::get('/mahasiswa', function () {
-    return 'Halo Mahasiswa';
-});
+// Route::get('/mahasiswa', function () {
+//     return 'Halo Mahasiswa';
+// });
 
 Route::get('/mahasiswa/{param1cls?}', [MahasiswaController::class, 'show'])->name('mahasiswa.show');
 
