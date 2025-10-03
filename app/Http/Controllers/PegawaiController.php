@@ -15,7 +15,7 @@ class PegawaiController extends Controller
            // --- DATA DUMMY (SILAKAN DIGANTI) ---
         $tglLahir = '2006-4-17';         // Tanggal Lahir (untuk hitung umur)
         $tglWisudaTarget = '2027-12-01'; // Tanggal Harus Wisuda
-        $semesterSaatIni = 3;           // Semester saat ini
+        $semesterSaatIni = 5;           // Semester saat ini
 
         // --- PERHITUNGAN UMUR DAN WAKTU SISA ---
         $hariIni = new DateTime();
