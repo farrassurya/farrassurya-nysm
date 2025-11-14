@@ -36,7 +36,7 @@ class UserController extends Controller
 
         User::create($data);
 
-        return redirect()->route('user.index')->with('succes','Perubahan Data Berhasil');
+        return redirect()->route('user.index')->with('succes', 'Perubahan Data Berhasil');
     }
 
     /**
@@ -52,7 +52,8 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data['dataUser'] = User::findOrFail($id);
+        return view('admin.user.edit', $data);
     }
 
     /**
@@ -60,7 +61,16 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user_id = $id;
+        $user = User::findOrFail($user_id);
+
+        $user->name = $request->name;
+        $user->password = $request->password;
+        $user->email = $request->email;
+
+
+        $user->save();
+        return redirect()->route('user.index')->with('succes', 'Perubahan Data Berhasil');
     }
 
     /**
@@ -68,6 +78,9 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $user->delete();
+        return redirect()->route('user.index')->with('success', 'Data Berhasil Dihapus');
     }
 }
