@@ -34,7 +34,7 @@
         <div class="col-12 mb-4">
             <div class="card border-0 shadow components-section">
                 <div class="card-body">
-                    <form action="{{ route('user.store') }}" method="POST">
+                    <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row mb-4">
                             <div class="col-lg-4 col-sm-6">
@@ -46,18 +46,16 @@
 
                                 <!-- Password -->
                                 <div class="mb-3">
-                                    <label for="password" class="form-label">password</label>
+                                    <label for="password" class="form-label">Password</label>
                                     <input type="password" name="password" id="password" class="form-control" required>
                                 </div>
                             </div>
 
                             <div class="col-lg-4 col-sm-6">
-
-                            <div class="col-lg-4 col-sm-12">
                                 <!-- Email -->
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="text" name="email" id="email" class="form-control" required>
+                                    <input type="email" name="email" id="email" class="form-control" required>
                                 </div>
 
                                 <!-- Confirmation Password -->
@@ -65,11 +63,30 @@
                                     <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
                                     <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
                                 </div>
+                            </div>
+
+                            <div class="col-lg-4 col-sm-12">
+                                <!-- Profile Picture -->
+                                <div class="mb-3">
+                                    <label for="profile_picture" class="form-label">Foto Profil</label>
+                                    <input type="file" name="profile_picture" id="profile_picture" class="form-control" accept="image/*" onchange="previewImage(this)">
+                                    <div class="form-text">Format yang didukung: JPEG, PNG, JPG, GIF. Maksimal 2MB</div>
+                                </div>
+
+                                <!-- Preview Image -->
+                                <div class="mb-3 text-center">
+                                    <img id="preview" src="#" alt="Preview" class="rounded-circle"
+                                         style="width: 100px; height: 100px; object-fit: cover; display: none; border: 3px solid #dee2e6;">
+                                    <div id="placeholder" class="rounded-circle d-flex align-items-center justify-content-center mx-auto"
+                                         style="width: 100px; height: 100px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                        <span class="text-white fw-bold" style="font-size: 36px;">?</span>
+                                    </div>
+                                </div>
 
                                 <!-- Buttons -->
                                 <div class="">
                                     <button type="submit" class="btn btn-primary">Simpan</button>
-                                    <a href="{{ route('pelanggan.index') }}"
+                                    <a href="{{ route('user.index') }}"
                                         class="btn btn-outline-secondary ms-2">Batal</a>
                                 </div>
                             </div>
@@ -80,4 +97,22 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Function untuk preview gambar sebelum upload
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview').src = e.target.result;
+                    document.getElementById('preview').style.display = 'block';
+                    document.getElementById('placeholder').style.display = 'none';
+                }
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                document.getElementById('preview').style.display = 'none';
+                document.getElementById('placeholder').style.display = 'flex';
+            }
+        }
+    </script>
 @endsection

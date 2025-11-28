@@ -20,5 +20,14 @@ class CreateFirstUser extends Seeder
             'email' => 'suryaputra24si@pcr.ac.id',
             'password' => Hash::make('suryaputra24si'),
         ]);
+
+        // Create additional dummy users for pagination testing
+        for ($i = 2; $i <= 15; $i++) {
+            User::create([
+                'name' => 'User ' . $i,
+                'email' => 'user' . $i . '@example.com',
+                'password' => Hash::make('password123'),
+            ]);
+        }
     }
 }

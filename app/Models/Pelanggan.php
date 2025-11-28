@@ -26,7 +26,7 @@ class Pelanggan extends Model
         }
         return $query;
     }
-    public function scopeSearch($query, $request, array $columns)
+    public function scopeSearch(Builder $query, $request, array $columns): Builder
     {
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request, $columns) {
@@ -35,5 +35,7 @@ class Pelanggan extends Model
                 }
             });
         }
+
+        return $query;
     }
 }

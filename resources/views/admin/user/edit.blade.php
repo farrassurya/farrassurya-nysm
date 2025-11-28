@@ -14,14 +14,14 @@
                         </svg>
                     </a>
                 </li>
-                <li class="breadcrumb-item"><a href="#">Pelanggan</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Edit Pelanggan</li>
+                <li class="breadcrumb-item"><a href="#">User</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit User</li>
             </ol>
         </nav>
         <div class="d-flex justify-content-between w-100 flex-wrap">
             <div class="mb-3 mb-lg-0">
-                <h1 class="h4">Edit Pelanggan</h1>
-                <p class="mb-0">Form untuk mengedit data pelanggan.</p>
+                <h1 class="h4">Edit User</h1>
+                <p class="mb-0">Form untuk mengedit data user beserta foto profil.</p>
             </div>
             <div>
                 <a href="{{ route('user.index') }}" class="btn btn-primary"><i class="far fa-question-circle me-1"></i>
@@ -34,7 +34,7 @@
         <div class="col-12 mb-4">
             <div class="card border-0 shadow components-section">
                 <div class="card-body">
-                    <form action="{{ route('user.update', $dataUser->user_id) }}" method="POST">
+                    <form action="{{ route('user.update', $dataUser->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="row mb-4">
@@ -48,32 +48,85 @@
 
                                 <!-- Password -->
                                 <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="text" name="password" value="{{ $dataUser->password }}"
-                                        id="password" class="form-control" required>
+                                    <label for="password" class="form-label">Password Baru</label>
+                                    <input type="password" name="password" id="password" class="form-control"
+                                           placeholder="Kosongkan jika tidak ingin mengubah password">
+                                    <div class="form-text">Biarkan kosong jika tidak ingin mengubah password</div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-sm-6">
+                                <!-- Email -->
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" name="email" value="{{ $dataUser->email }}" id="email"
+                                        class="form-control" required>
+                                </div>
+
+                                <!-- Profile Picture -->
+                                <div class="mb-3">
+                                    <label for="profile_picture" class="form-label">Foto Profil Baru</label>
+                                    <input type="file" name="profile_picture" id="profile_picture" class="form-control"
+                                           accept="image/*" onchange="previewImage(this)">
+                                    <div class="form-text">Format yang didukung: JPEG, PNG, JPG, GIF. Maksimal 2MB</div>
                                 </div>
                             </div>
 
                             <div class="col-lg-4 col-sm-12">
-                                <!-- Email -->
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="text" name="email" value="{{ $dataPelanggan->email }}" id="email"
-                                        class="form-control" required>
+                                <!-- Current Photo -->
+                                <div class="mb-3 text-center">
+                                    <label class="form-label">Foto Profil Saat Ini</label>
+                                    <div class="mb-3">
+                                        <img id="current-image" src="{{ getProfileImage($dataUser, 120) }}"
+                                             class="rounded-circle"
+                                             style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #dee2e6;"
+                                             alt="Current Profile Picture">
+                                    </div>
+
+                                    <!-- Preview for new image -->
+                                    <img id="preview" src="#" alt="Preview" class="rounded-circle"
+                                         style="width: 120px; height: 120px; object-fit: cover; display: none; border: 3px solid #28a745;">
                                 </div>
 
                                 <!-- Buttons -->
-                                <div class="">
-                                    <button type="submit" class="btn btn-primary">Simpan</button>
-                                    <a href="{{ route('pelanggan.index') }}"
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Update User</button>
+                                    <a href="{{ route('user.index') }}"
                                         class="btn btn-outline-secondary ms-2">Batal</a>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
+
+    <script>
+        // Function untuk preview gambar sebelum upload
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview').src = e.target.result;
+                    document.getElementById('preview').style.display = 'block';
+
+                    // Hide current image
+                    var currentImage = document.getElementById('current-image');
+                    var currentPlaceholder = document.getElementById('current-placeholder');
+                    if (currentImage) currentImage.style.display = 'none';
+                    if (currentPlaceholder) currentPlaceholder.style.display = 'none';
+                }
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                document.getElementById('preview').style.display = 'none';
+
+                // Show current image again
+                var currentImage = document.getElementById('current-image');
+                var currentPlaceholder = document.getElementById('current-placeholder');
+                if (currentImage) currentImage.style.display = 'block';
+                if (currentPlaceholder) currentPlaceholder.style.display = 'flex';
+            }
+        }
+    </script>
 @endsection

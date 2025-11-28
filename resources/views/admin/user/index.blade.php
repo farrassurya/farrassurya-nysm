@@ -38,6 +38,7 @@
                         <table id="table-user" class="table table-centered table-nowrap mb-0 rounded">
                             <thead class="thead-light">
                                 <tr>
+                                    <th class="border-0">Foto Profil</th>
                                     <th class="border-0">Nama Lengkap</th>
                                     <th class="border-0">Email</th>
                                     <th class="border-0">Password</th>
@@ -48,13 +49,20 @@
 
                                 @foreach ($dataUser as $item)
                                     <tr>
+                                        <td>
+                                            <img src="{{ getProfileImage($item, 50) }}"
+                                                 class="rounded-circle"
+                                                 width="50" height="50"
+                                                 style="object-fit: cover;"
+                                                 alt="Profile Picture">
+                                        </td>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->email }}</td>
-                                        <td>{{ $item->password }}</td>
+                                        <td>{{ Str::limit($item->password, 20, '...') }}</td>
 
                                         <td>
                                             {{-- ini edit --}}
-                                            <a href="" class="btn btn-info btn-sm">
+                                            <a href="{{ route('user.edit', $item->id) }}" class="btn btn-info btn-sm">
                                                 <svg class="icon icon-xs me-2" data-slot="icon" fill="none"
                                                     stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24"
                                                     xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -65,7 +73,8 @@
                                                 Edit
                                             </a>
                                             {{-- ini delete --}}
-                                            <form action="" method="POST" style="display:inline">
+                                            <form action="{{ route('user.destroy', $item->id) }}" method="POST" style="display:inline"
+                                                  onsubmit="return confirm('Yakin mau hapus user {{ $item->name }}? Foto profilnya juga akan terhapus!')">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm">
@@ -84,6 +93,9 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="mt-3">
+                            {{ $dataUser->links('pagination::custom-bootstrap-5') }}
+                        </div>
                     </div>
                 </div>
             </div>

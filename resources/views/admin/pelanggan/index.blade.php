@@ -34,7 +34,6 @@
         <div class="col-12 mb-4">
             <div class="card border-0 shadow mb-4">
                 <div class="card-body">
-                    <div class="table-responsive">
                         <form method="GET" action="{{ route('pelanggan.index') }}" class="mb-3">
                             <div class="row">
                                 <div class="col-md-2">
@@ -127,11 +126,11 @@
                                     @endforeach
                                 </tbody>
                             </table>
+
                             <div class="mt-3">
-                                {{ $dataPelanggan->links('pagination::simple-bootstrap-5') }}
+                                {{ $dataPelanggan->links('pagination::custom-bootstrap-5') }}
                             </div>
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
