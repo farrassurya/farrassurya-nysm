@@ -93,9 +93,20 @@
                                             <td>{{ $item->email }}</td>
                                             <td>{{ $item->phone }}</td>
                                             <td>
+                                                {{-- ini detail --}}
+                                                <a href="{{ route('pelanggan.show', $item->pelanggan_id) }}"
+                                                    class="btn btn-primary btn-sm me-1">
+                                                    <svg class="icon icon-xs me-1" fill="none"
+                                                        stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z">
+                                                        </path>
+                                                    </svg>
+                                                    Detail
+                                                </a>
                                                 {{-- ini edit --}}
                                                 <a href="{{ route('pelanggan.edit', $item->pelanggan_id) }}"
-                                                    class="btn btn-info btn-sm">
+                                                    class="btn btn-info btn-sm me-1">
                                                     <svg class="icon icon-xs me-2" data-slot="icon" fill="none"
                                                         stroke-width="1.5" stroke="currentColor" viewBox="0 0 24 24"
                                                         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

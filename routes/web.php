@@ -52,6 +52,20 @@ Route::get('dashboard', [DashboardController::class, 'index'])
 
 Route::resource('pelanggan', PelangganController::class);
 
+// Route untuk upload file pelanggan
+Route::post('/pelanggan/{id}/upload', [PelangganController::class, 'uploadFiles'])->name('pelanggan.upload');
+Route::delete('/pelanggan-file/{fileId}', [PelangganController::class, 'deleteFile'])->name('pelanggan.file.delete');
+
+// Debug route
+Route::get('/debug-upload', function () {
+    $files = \App\Models\MultipleUpload::where('ref_table', 'pelanggan')->where('ref_id', 1)->get();
+    dd([
+        'total_files' => \App\Models\MultipleUpload::count(),
+        'pelanggan_files' => $files,
+        'pelanggan_count' => $files->count()
+    ]);
+});
+
 Route::resource('user', UserController::class);
 
 // Profile routes untuk upload dan manage profile picture

@@ -2,6 +2,21 @@
 
 @section('content')
     <div class="py-4">
+        <!-- Alert Messages -->
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+        
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+        
         <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
             <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                 <li class="breadcrumb-item">
@@ -34,7 +49,7 @@
         <div class="col-12 mb-4">
             <div class="card border-0 shadow components-section">
                 <div class="card-body">
-                    <form action="{{ route('pelanggan.update', $dataPelanggan->pelanggan_id) }}" method="POST">
+                    <form action="{{ route('pelanggan.update', $dataPelanggan->pelanggan_id) }}" method="POST" id="editForm">
                         @csrf
                         @method('PUT')
                         <div class="row mb-4">
@@ -76,7 +91,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-4 col-sm-12">
+                            <div class="col-lg-4 col-sm-6">
                                 <!-- Email -->
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
@@ -90,18 +105,36 @@
                                     <input type="text" name="phone" value="{{ $dataPelanggan->phone }}" id="phone"
                                         class="form-control">
                                 </div>
-
-                                <!-- Buttons -->
-                                <div class="">
-                                    <button type="submit" class="btn btn-primary">Simpan</button>
-                                    <a href="{{ route('pelanggan.index') }}"
-                                        class="btn btn-outline-secondary ms-2">Batal</a>
-                                </div>
                             </div>
                         </div>
                     </form>
+                    
+                    <!-- Upload File Section -->
+                    <div class="row justify-content-end mt-3">
+                        <div class="col-lg-4 col-md-6 col-12">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold" style="font-size: 0.9rem;">Upload File Pendukung</label>
+                                <form action="{{ route('pelanggan.upload', $dataPelanggan->pelanggan_id) }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <input type="file" name="files[]" class="form-control" multiple accept=".jpg,.jpeg,.png,.pdf" required style="font-size: 0.875rem; padding: 0.375rem 0.75rem;">
+                                        <button type="submit" class="btn btn-success" style="font-size: 0.875rem; padding: 0.375rem 0.75rem; white-space: nowrap;">
+                                            Upload
+                                        </button>
+                                    </div>
+                                    <div class="form-text mt-1" style="font-size: 0.75rem;">Format: JPG, PNG, PDF. Max 5MB/file.</div>
+                                </form>
+                            </div>
+                            
+                            <!-- Buttons -->
+                            <div class="mt-3">
+                                <button type="submit" form="editForm" class="btn btn-primary">Simpan</button>
+                                <a href="{{ route('pelanggan.index') }}"
+                                    class="btn btn-outline-secondary ms-2">Batal</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
