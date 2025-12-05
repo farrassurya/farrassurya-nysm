@@ -144,13 +144,13 @@ class PelangganController extends Controller
 
             $uploadCount = 0;
             $files = $request->file('files');
-            
+
             foreach ($files as $file) {
                 if ($file->isValid()) {
                     // Generate unique filename
                     $originalName = $file->getClientOriginalName();
                     $fileName = time() . '_' . $originalName;
-                    
+
                     // Store file
                     $path = $file->storeAs('pelanggan_files', $fileName, 'public');
 
@@ -163,13 +163,13 @@ class PelangganController extends Controller
                         'file_type' => $file->getMimeType(),
                         'file_size' => $file->getSize()
                     ]);
-                    
+
                     $uploadCount++;
                 }
             }
 
             return redirect()->route('pelanggan.show', $id)->with('success', $uploadCount . ' file berhasil diupload!');
-            
+
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->route('pelanggan.edit', $id)->withErrors($e->validator)->withInput();
         } catch (\Exception $e) {

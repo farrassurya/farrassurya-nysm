@@ -127,16 +127,16 @@
                                         <!-- Action Buttons -->
                                         <div class="d-grid gap-2">
                                             <a href="{{ asset('storage/' . $file->file_path) }}"
-                                               target="_blank" 
+                                               target="_blank"
                                                class="btn btn-sm btn-primary">
                                                 <i class="fas fa-download me-1"></i> Download
                                             </a>
                                             <form action="{{ route('pelanggan.file.delete', $file->id) }}"
-                                                  method="POST" 
+                                                  method="POST"
                                                   onsubmit="return confirm('Yakin hapus file ini?')">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" 
+                                                <button type="submit"
                                                         class="btn btn-sm btn-danger w-100">
                                                     <i class="fas fa-trash me-1"></i> Hapus
                                                 </button>

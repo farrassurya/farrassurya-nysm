@@ -9,14 +9,14 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
-        
+
         @if(session('error'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{ session('error') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
-        
+
         <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
             <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
                 <li class="breadcrumb-item">
@@ -108,7 +108,7 @@
                             </div>
                         </div>
                     </form>
-                    
+
                     <!-- Upload File Section -->
                     <div class="row justify-content-end mt-3">
                         <div class="col-lg-4 col-md-6 col-12">
@@ -125,7 +125,7 @@
                                     <div class="form-text mt-1" style="font-size: 0.75rem;">Format: JPG, PNG, PDF. Max 5MB/file.</div>
                                 </form>
                             </div>
-                            
+
                             <!-- Buttons -->
                             <div class="mt-3">
                                 <button type="submit" form="editForm" class="btn btn-primary">Simpan</button>
