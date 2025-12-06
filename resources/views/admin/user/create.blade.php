@@ -37,11 +37,17 @@
                     <form action="{{ route('user.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row mb-4">
-                            <div class="col-lg-4 col-sm-6">
+                            <div class="col-lg-6 col-sm-12">
                                 <!-- Nama Lengkap -->
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Nama Lengkap</label>
                                     <input type="text" name="name" id="name" class="form-control" required>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" name="email" id="email" class="form-control" required>
                                 </div>
 
                                 <!-- Password -->
@@ -49,23 +55,25 @@
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" name="password" id="password" class="form-control" required>
                                 </div>
-                            </div>
-
-                            <div class="col-lg-4 col-sm-6">
-                                <!-- Email -->
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" name="email" id="email" class="form-control" required>
-                                </div>
 
                                 <!-- Confirmation Password -->
                                 <div class="mb-3">
                                     <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
                                     <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
                                 </div>
+
+                                <!-- Role -->
+                                <div class="mb-3">
+                                    <label for="role" class="form-label">Role</label>
+                                    <select name="role" id="role" class="form-select" required>
+                                        <option value="Super Admin" selected>Super Admin</option>
+                                        <option value="Pelanggan">Pelanggan</option>
+                                        <option value="Mitra">Mitra</option>
+                                    </select>
+                                </div>
                             </div>
 
-                            <div class="col-lg-4 col-sm-12">
+                            <div class="col-lg-6 col-sm-12">
                                 <!-- Profile Picture -->
                                 <div class="mb-3">
                                     <label for="profile_picture" class="form-label">Foto Profil</label>
@@ -75,16 +83,18 @@
 
                                 <!-- Preview Image -->
                                 <div class="mb-3 text-center">
-                                    <img id="preview" src="#" alt="Preview" class="rounded-circle"
-                                         style="width: 100px; height: 100px; object-fit: cover; display: none; border: 3px solid #dee2e6;">
-                                    <div id="placeholder" class="rounded-circle d-flex align-items-center justify-content-center mx-auto"
-                                         style="width: 100px; height: 100px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                                        <span class="text-white fw-bold" style="font-size: 36px;">?</span>
+                                    <div style="position: relative; width: 150px; height: 150px; margin: 0 auto;">
+                                        <div id="placeholder" class="rounded-circle d-flex align-items-center justify-content-center"
+                                             style="width: 150px; height: 150px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: absolute; top: 0; left: 0; z-index: 1;">
+                                            <span class="text-white fw-bold" style="font-size: 48px;">?</span>
+                                        </div>
+                                        <img id="preview" src="#" alt="Preview" class="rounded-circle"
+                                             style="width: 150px; height: 150px; object-fit: cover; display: none; border: 3px solid #dee2e6; position: absolute; top: 0; left: 0; z-index: 2;">
                                     </div>
                                 </div>
 
                                 <!-- Buttons -->
-                                <div class="">
+                                <div class="text-center mt-3">
                                     <button type="submit" class="btn btn-primary">Simpan</button>
                                     <a href="{{ route('user.index') }}"
                                         class="btn btn-outline-secondary ms-2">Batal</a>

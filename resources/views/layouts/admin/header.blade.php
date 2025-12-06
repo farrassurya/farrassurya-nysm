@@ -22,6 +22,7 @@
                     </div>
                     <!-- Navbar links -->
                     <ul class="navbar-nav align-items-center">
+                        @auth
                         <li class="nav-item dropdown">
                             <a class="nav-link text-dark notification-bell unread dropdown-toggle"
                                 data-unread-notifications="true" href="#" role="button" data-bs-toggle="dropdown"
@@ -120,10 +121,29 @@
                             <a class="nav-link dropdown-toggle pt-1 px-0" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <div class="media d-flex align-items-center">
-                                    <img class="avatar rounded-circle" alt="Image placeholder"
-                                        src="{{ asset('assets-admin/img/team/profile-picture-3.jpg') }}">
+                                    @if(Auth::user()->profile_picture)
+                                        <img class="avatar rounded-circle" alt="{{ Auth::user()->name }}" style="width: 40px; height: 40px; object-fit: cover;"
+                                            src="{{ asset('storage/' . Auth::user()->profile_picture) }}">
+                                    @else
+                                        @php
+                                            $name = Auth::user()->name;
+                                            $initials = collect(explode(' ', $name))->map(fn($word) => strtoupper(substr($word, 0, 1)))->take(2)->implode('');
+                                            $colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2', '#F8B739', '#52B788'];
+                                            $colorIndex = ord(strtoupper(substr($name, 0, 1))) % count($colors);
+                                            $bgColor = $colors[$colorIndex];
+
+                                            // Generate SVG avatar
+                                            $svg = '<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg">';
+                                            $svg .= '<circle cx="20" cy="20" r="20" fill="' . $bgColor . '"/>';
+                                            $svg .= '<text x="50%" y="50%" text-anchor="middle" dy=".35em" fill="white" font-size="16" font-weight="bold" font-family="Arial, sans-serif">' . $initials . '</text>';
+                                            $svg .= '</svg>';
+                                            $avatarDataUri = 'data:image/svg+xml;base64,' . base64_encode($svg);
+                                        @endphp
+                                        <img class="avatar rounded-circle" alt="{{ $name }}" style="width: 40px; height: 40px;"
+                                            src="{{ $avatarDataUri }}">
+                                    @endif
                                     <div class="media-body ms-2 text-dark align-items-center d-none d-lg-block">
-                                        <span class="mb-0 font-small fw-bold text-gray-900">Bonnie Green</span>
+                                        <span class="mb-0 font-small fw-bold text-gray-900">{{ Auth::user()->name }}</span>
                                     </div>
                                 </div>
                             </a>
@@ -146,8 +166,18 @@
                                     </svg>
                                     Settings
                                 </a>
-                                <div role="separator" class="dropdown-divider my-1"></div>
+                                @if(session('last_login'))
                                 <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <svg class="dropdown-icon text-gray-400 me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span id="realtimeClock">{{ session('last_login')->format('Y-m-d H:i:s') }}</span>
+                                </a>
+                                @endif
+                                <div role="separator" class="dropdown-divider my-1"></div>
+                                <form action="{{ route('logout') }}" method="POST" id="logoutForm">
+                                    @csrf
+                                    <a class="dropdown-item d-flex align-items-center" href="#" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">
                                     <svg class="dropdown-icon text-danger me-2" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -155,10 +185,45 @@
                                         </path>
                                     </svg>
                                     Logout
-                                </a>
+                                    </a>
+                                </form>
                             </div>
                         </li>
+                        @endauth
+
+                        @guest
+                        <li class="nav-item ms-lg-3">
+                            <a class="btn btn-primary btn-sm" href="{{ route('login') }}">
+                                <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                </svg>
+                                Login
+                            </a>
+                        </li>
+                        @endguest
                     </ul>
                 </div>
             </div>
         </nav>
+
+        @if(session('last_login'))
+        <script>
+            function updateClock() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+
+                const timeString = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                document.getElementById('realtimeClock').textContent = timeString;
+            }
+
+            // Update setiap detik
+            setInterval(updateClock, 1000);
+            // Jalankan sekali saat load
+            updateClock();
+        </script>
+        @endif

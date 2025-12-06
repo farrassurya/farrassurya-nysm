@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'profile_picture',  // Tambahan untuk upload profile picture
+        'role',  // Tambahan untuk role management
     ];
 
     /**

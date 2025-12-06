@@ -1,6 +1,13 @@
 @extends('layouts.admin.app')
 
 @section('content')
+		@if(session('success'))
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>Berhasil!</strong> {{ session('success') }}
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+		@endif
+
 		<div class="py-4">
 			<div class="dropdown">
 				<button class="btn btn-gray-800 d-inline-flex align-items-center me-2 dropdown-toggle"

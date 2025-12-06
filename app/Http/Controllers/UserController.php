@@ -36,12 +36,14 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
-            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'role' => 'required|string|in:Super Admin,Pelanggan,Mitra'
         ]);
 
         $data['name'] = $request->name;
         $data['email'] = $request->email;
         $data['password'] = Hash::make($request->password);
+        $data['role'] = $request->role;
 
         // Handle upload profile picture
         if ($request->hasFile('profile_picture')) {
@@ -81,13 +83,15 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,'.$id,
             'password' => 'nullable|min:6',
-            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'role' => 'required|string|in:Super Admin,Pelanggan,Mitra'
         ]);
 
         $user = User::findOrFail($id);
 
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->role = $request->role;
 
         // Update password hanya jika diisi
         if ($request->filled('password')) {

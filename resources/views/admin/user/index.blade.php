@@ -38,10 +38,12 @@
                         <table id="table-user" class="table table-centered table-nowrap mb-0 rounded">
                             <thead class="thead-light">
                                 <tr>
+                                    <th class="border-0">#</th>
                                     <th class="border-0">Foto Profil</th>
                                     <th class="border-0">Nama Lengkap</th>
                                     <th class="border-0">Email</th>
                                     <th class="border-0">Password</th>
+                                    <th class="border-0">Role</th>
                                     <th class="border-0 rounded-end">Action</th>
                                 </tr>
                             </thead>
@@ -49,6 +51,7 @@
 
                                 @foreach ($dataUser as $item)
                                     <tr>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>
                                             <img src="{{ getProfileImage($item, 50) }}"
                                                  class="rounded-circle"
@@ -59,6 +62,9 @@
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->email }}</td>
                                         <td>{{ Str::limit($item->password, 20, '...') }}</td>
+                                        <td>
+                                            <span class="badge bg-primary">{{ $item->role ?? 'Belum diatur' }}</span>
+                                        </td>
 
                                         <td>
                                             {{-- ini edit --}}

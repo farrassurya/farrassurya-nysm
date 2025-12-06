@@ -38,12 +38,19 @@
                         @csrf
                         @method('PUT')
                         <div class="row mb-4">
-                            <div class="col-lg-4 col-sm-6">
+                            <div class="col-lg-6 col-sm-12">
                                 <!-- Nama Lengkap -->
                                 <div class="mb-3">
                                     <label for="name" class="form-label">Nama Lengkap</label>
                                     <input type="text" name="name" value="{{ $dataUser->name }}"
                                         id="name" class="form-control" required>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" name="email" value="{{ $dataUser->email }}" id="email"
+                                        class="form-control" required>
                                 </div>
 
                                 <!-- Password -->
@@ -53,16 +60,19 @@
                                            placeholder="Kosongkan jika tidak ingin mengubah password">
                                     <div class="form-text">Biarkan kosong jika tidak ingin mengubah password</div>
                                 </div>
+
+                                <!-- Role -->
+                                <div class="mb-3">
+                                    <label for="role" class="form-label">Role</label>
+                                    <select name="role" id="role" class="form-select" required>
+                                        <option value="Super Admin" {{ ($dataUser->role ?? 'Super Admin') == 'Super Admin' ? 'selected' : '' }}>Super Admin</option>
+                                        <option value="Pelanggan" {{ ($dataUser->role ?? '') == 'Pelanggan' ? 'selected' : '' }}>Pelanggan</option>
+                                        <option value="Mitra" {{ ($dataUser->role ?? '') == 'Mitra' ? 'selected' : '' }}>Mitra</option>
+                                    </select>
+                                </div>
                             </div>
 
-                            <div class="col-lg-4 col-sm-6">
-                                <!-- Email -->
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" name="email" value="{{ $dataUser->email }}" id="email"
-                                        class="form-control" required>
-                                </div>
-
+                            <div class="col-lg-6 col-sm-12">
                                 <!-- Profile Picture -->
                                 <div class="mb-3">
                                     <label for="profile_picture" class="form-label">Foto Profil Baru</label>
@@ -70,26 +80,25 @@
                                            accept="image/*" onchange="previewImage(this)">
                                     <div class="form-text">Format yang didukung: JPEG, PNG, JPG, GIF. Maksimal 2MB</div>
                                 </div>
-                            </div>
 
-                            <div class="col-lg-4 col-sm-12">
                                 <!-- Current Photo -->
                                 <div class="mb-3 text-center">
                                     <label class="form-label">Foto Profil Saat Ini</label>
                                     <div class="mb-3">
-                                        <img id="current-image" src="{{ getProfileImage($dataUser, 120) }}"
-                                             class="rounded-circle"
-                                             style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #dee2e6;"
-                                             alt="Current Profile Picture">
+                                        <div style="position: relative; width: 150px; height: 150px; margin: 0 auto;">
+                                            <img id="current-image" src="{{ getProfileImage($dataUser, 150) }}"
+                                                 class="rounded-circle"
+                                                 style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #dee2e6; position: absolute; top: 0; left: 0; z-index: 1;"
+                                                 alt="Current Profile Picture">
+                                            <!-- Preview for new image -->
+                                            <img id="preview" src="#" alt="Preview" class="rounded-circle"
+                                                 style="width: 150px; height: 150px; object-fit: cover; display: none; border: 3px solid #28a745; position: absolute; top: 0; left: 0; z-index: 2;">
+                                        </div>
                                     </div>
-
-                                    <!-- Preview for new image -->
-                                    <img id="preview" src="#" alt="Preview" class="rounded-circle"
-                                         style="width: 120px; height: 120px; object-fit: cover; display: none; border: 3px solid #28a745;">
                                 </div>
 
                                 <!-- Buttons -->
-                                <div class="text-center">
+                                <div class="text-center mt-3">
                                     <button type="submit" class="btn btn-primary">Update User</button>
                                     <a href="{{ route('user.index') }}"
                                         class="btn btn-outline-secondary ms-2">Batal</a>
